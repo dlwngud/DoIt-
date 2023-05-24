@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setContentView(binding.toolbar)
+        setSupportActionBar(binding.toolbar)
 
         // ActionBarDrawerToggle 버튼 적용
         toggle = ActionBarDrawerToggle(
