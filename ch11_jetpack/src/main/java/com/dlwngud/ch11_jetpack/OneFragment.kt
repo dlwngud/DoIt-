@@ -14,7 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dlwngud.ch11_jetpack.databinding.FragmentOneBinding
 import com.dlwngud.ch11_jetpack.databinding.ItemRecyclerviewBinding
 
 class OneFragment : Fragment() {
@@ -22,8 +24,21 @@ class OneFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_one, container, false)
+        val binding = FragmentOneBinding.inflate(inflater, container, false)
+
+        // 리사이클러 뷰를 위한 가상 데이터 준비
+        val datas = mutableListOf<String>()
+        for (i in 1..9) {
+            datas.add("Item $i")
+        }
+
+        // 리사이클러 뷰에 LayoutManager, Adapter, ItemDecoration 적용
+        val layoutManager = LinearLayoutManager(activity)
+        binding.rv.layoutManager = layoutManager
+        val adapter = MyAdapter(datas)
+        binding.rv.adapter = adapter
+        binding.rv.addItemDecoration(MyDecoration(activity as Context))
+        return binding.root
     }
 }
 
