@@ -13,8 +13,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
 
     // 뷰 페이저 어댑터
-    class MyFragmentPagerAdapter(activity:FragmentActivity): FragmentStateAdapter(activity){
+    class MyFragmentPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
         val fragments: List<Fragment>
+
         init {
             fragments = listOf(OneFragment(), TwoFragment(), ThreeFragment())
         }
@@ -33,5 +34,17 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setContentView(binding.toolbar)
+
+        // ActionBarDrawerToggle 버튼 적용
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawer,
+            R.string.drawer_opened,
+            R.string.drawer_closed
+        )
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toggle.syncState()
     }
 }
