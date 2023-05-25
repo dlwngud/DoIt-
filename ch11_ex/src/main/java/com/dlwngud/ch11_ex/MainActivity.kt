@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         // fragment 교체
         fragmentTransaction.replace(R.id.content, fr!!)
+
+        // BackStack안에 들어가 있는 Fragment들이 Pause상태로 유지되고
+        // 뒤로 가기를 누르면 담아두었던 Fragment가 다시 꺼내져 화면에 보여진다.
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 
