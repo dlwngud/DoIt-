@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,7 @@ class OneFragment : Fragment() {
     class MyViewHolder(val binding: ItemOneFragmentBinding) : RecyclerView.ViewHolder(binding.root)
 
     // 항목을 구성(데이터 대입)
-    class MyAdapter(private val dataSet: MutableList<UserData>) :
+    inner class MyAdapter(private val dataSet: MutableList<UserData>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         // 뷰 홀더의 뷰에 데이터를 출력
@@ -47,10 +48,10 @@ class OneFragment : Fragment() {
             binding.txtUserName.text = dataSet[position].name
 
             // 뷰에 이벤트 추가
-//            binding.itemRoot.setOnClickListener{
-//                // Toast.makeText(,"item root click : $position", Toast.LENGTH_SHORT).show()
-//                Log.d("kkang","item root click : $position")
-//            }
+            binding.itemRoot.setOnClickListener{
+                // 어댑터의 생성자로 context를 받아서 넣어준다.
+                 Toast.makeText(requireContext(),"item root click : $position", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // 항목 개수를 판단
