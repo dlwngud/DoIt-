@@ -2,14 +2,17 @@ package com.dlwngud.ch11_ex
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dlwngud.ch11_ex.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+    lateinit var toggle: ActionBarDrawerToggle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,6 +26,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // 뷰 페이저에 어댑터 적용
         val adapter = MyFragmentPagerAdapter(this)
         binding.vp.adapter = adapter
+
+        binding.toolbar.inflateMenu(R.menu.menu)
+
+        // ActionBarDrawerToggle 버튼 적용
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawer,
+            R.string.drawer_opened,
+            R.string.drawer_closed
+        )
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toggle.syncState()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //  이벤트가 토글 버튼에서 발생하면
+        if(toggle.onOptionsItemSelected(item)){
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onClick(v: View?) {
