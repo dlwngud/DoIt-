@@ -43,14 +43,14 @@ class OneFragment : Fragment() {
 
             val item = dataSet[position]
             // 뷰에 데이터 출력
-            binding.imgUserIcon.setImageDrawable(dataSet[position].img)
-            binding.txtUserId.text = dataSet[position].id
-            binding.txtUserName.text = dataSet[position].name
+            binding.imgUserIcon.setImageDrawable(item.img)
+            binding.txtUserId.text = item.id
+            binding.txtUserName.text = item.name
 
             // 뷰에 이벤트 추가
             binding.itemRoot.setOnClickListener{
                 // 어댑터의 생성자로 context를 받아서 넣어준다.
-                 Toast.makeText(requireContext(),"item root click : $position", Toast.LENGTH_SHORT).show()
+                 Toast.makeText(requireContext(),"item root click : ${item.id}", Toast.LENGTH_SHORT).show()
             }
         }
 

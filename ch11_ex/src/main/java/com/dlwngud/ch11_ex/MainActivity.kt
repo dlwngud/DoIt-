@@ -2,18 +2,27 @@ package com.dlwngud.ch11_ex
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.dlwngud.ch11_ex.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val fm = supportFragmentManager
         val fragmentTransaction = fm.beginTransaction()
         fragmentTransaction.add(R.id.content, OneFragment())
         fragmentTransaction.commit()
+
+        // 뷰 페이저에 어댑터 적용
+        val adapter = MyFragmentPagerAdapter(this)
+        binding.vp.adapter = adapter
     }
 
     override fun onClick(v: View?) {
@@ -38,4 +47,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+
+    // 뷰 페이저 어댑터
+    class MyFragmentPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
+        val fragments: List<Fragment>
+
+        init {
+            fragments = listOf(OneFragment(), TwoFragment())
+        }
+
+        override fun getItemCount(): Int {
+            return fragments.size
+        }
+
+        override fun createFragment(position: Int): Fragment {
+            return fragments[position]
+        }
+    }
 }
