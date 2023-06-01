@@ -2,16 +2,32 @@ package com.dlwngud.ch12_tablayout
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.dlwngud.ch12_tablayout.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var toggle: ActionBarDrawerToggle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+
+        // ActionBarDrawerToggle 버튼 적용
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawer,
+            R.string.drawer_opened,
+            R.string.drawer_closed
+        )
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toggle.syncState()
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             // 탭 버튼을 선택할 때 이벤트
@@ -43,5 +59,12 @@ class MainActivity : AppCompatActivity() {
                 2 -> tab.text = "Tab3"
             }
         }.attach()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toggle.onOptionsItemSelected(item)){
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
