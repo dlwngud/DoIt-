@@ -3,6 +3,7 @@ package com.dlwngud.ch12_tablayout
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.dlwngud.ch12_tablayout.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
@@ -28,6 +29,12 @@ class MainActivity : AppCompatActivity() {
         )
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
+
+        // drawer의 메뉴 아이템 선택 시 적용
+        binding.mainDrawerView.setNavigationItemSelectedListener {
+            Toast.makeText(this,"navigation item click : ${it.title}",Toast.LENGTH_SHORT).show()
+            true
+        }
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             // 탭 버튼을 선택할 때 이벤트
