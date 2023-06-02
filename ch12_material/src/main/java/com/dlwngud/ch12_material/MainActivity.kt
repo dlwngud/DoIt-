@@ -35,6 +35,15 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabs, binding.viewpager){ tab, position ->
             tab.text = "Tab${position+1}"
         }.attach()
+
+        // 플로팅 액션 버튼
+        // 확장된 상태면 줄이고, 줄어든 상태면 확장
+        binding.fab.setOnClickListener {
+            when(binding.fab.isExtended){
+                true -> binding.fab.shrink()
+                false -> binding.fab.extend()
+            }
+        }
     }
 
     // 메뉴 옵션 생성
