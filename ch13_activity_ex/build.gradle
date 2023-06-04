@@ -7,6 +7,10 @@ android {
     namespace 'com.test.ch13_activity_ex'
     compileSdk 33
 
+    viewBinding {
+        enable = true
+    }
+
     defaultConfig {
         applicationId "com.test.ch13_activity_ex"
         minSdk 24
