@@ -1,7 +1,10 @@
 package com.test.ch13_activity_ex
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.test.ch13_activity_ex.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
@@ -16,5 +19,12 @@ class DetailActivity : AppCompatActivity() {
 
         binding.tv1.text = data1
         binding.tv2.text = data2.toString()
+
+        binding.btn.setOnClickListener {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.putExtra("result", "엑스트라 데이터 받았음을 알림")
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 }
