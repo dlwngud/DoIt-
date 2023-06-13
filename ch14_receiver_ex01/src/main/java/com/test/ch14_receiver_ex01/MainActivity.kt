@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.test.ch14_receiver_ex01.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,18 +21,23 @@ class MainActivity : AppCompatActivity() {
         // 리시버 객체 생성
         val receiver = object : BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
-
+                when(intent?.action){
+                    Intent.ACTION_SCREEN_ON -> Log.d("kkang", "screen on")
+                    Intent.ACTION_SCREEN_OFF -> Log.d("kkang", "screen off")
+                }
             }
         }
 
         // registerReceiver() : 매니페스트에 <receiver>로 등록하지 않아도 시스템에서 리시버를 인지
-        val filter = IntentFilter("ACTION_RECEIVER")
+        val filter = IntentFilter(Intent.ACTION_SCREEN_ON).apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+        }
         registerReceiver(receiver, filter)
 
         // registerReceiver()를 사용하고 필요없으면 해제해 줘야한다.
         unregisterReceiver(receiver)
 
-        val intent = Intent(this, MyReceiver::class.java)
-        sendBroadcast(intent)
+        // val intent = Intent(this, MyReceiver::class.java)
+        // sendBroadcast(intent)
     }
 }
