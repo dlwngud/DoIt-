@@ -30,5 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         // registerReceiver()를 사용하고 필요없으면 해제해 줘야한다.
         unregisterReceiver(receiver)
+
+        val intent = Intent(this, MyReceiver::class.java)
+        sendBroadcast(intent)
     }
 }
