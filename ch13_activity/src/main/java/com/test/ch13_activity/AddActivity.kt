@@ -23,4 +23,14 @@ class AddActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menu_add_save -> {
+            val intent = intent
+            intent.putExtra("result", binding.addEditView.text.toString())
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+            true
+        }
+        else -> true
+    }
 }

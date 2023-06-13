@@ -21,6 +21,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val requestLauncher : ActivityResultLauncher<Intent> = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ){
+            val resultData = it.data?.getStringExtra("result")
+            if (resultData != null) {
+                datas?.add(resultData)
+            }
+            adapter.notifyDataSetChanged()
+        }
+
+        binding.mainFab.setOnClickListener {
+            val intent = Intent(this, AddActivity::class.java)
+            requestLauncher.launch(intent)
+        }
+
         val layoutManager = LinearLayoutManager(this)
         binding.mainRecyclerView.layoutManager = layoutManager
         adapter = MyAdapter(datas)
