@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -39,5 +40,38 @@ class MainActivity : AppCompatActivity() {
 
         // val intent = Intent(this, MyReceiver::class.java)
         // sendBroadcast(intent)
+
+        val batteryReceiver = MyReceiver()
+        val filter1 = IntentFilter(Intent.ACTION_BATTERY_LOW).apply {
+            addAction(Intent.ACTION_BATTERY_OKAY)
+            addAction(Intent.ACTION_BATTERY_CHANGED)
+            addAction(Intent.ACTION_POWER_CONNECTED)
+            addAction(Intent.ACTION_POWER_DISCONNECTED)
+        }
+        registerReceiver(batteryReceiver, filter1)
+
+        // 시스템 인텐트 없이 배터리 상태 파악하기
+        val intentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val batteryStatus = registerReceiver(null, intentFilter)
+
+        // 인텐트의 엑스트라를 이용해 배터리 상태 파악하기
+        val status = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+        if(status == BatteryManager.BATTERY_STATUS_CHARGING){
+            // 전원이 공급되고 있다면
+            val chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+            when(chargePlug){
+                BatteryManager.BATTERY_PLUGGED_USB -> Log.d("kkang", "use charge")
+                BatteryManager.BATTERY_PLUGGED_AC -> Log.d("kkang", "ac charge")
+            }
+        } else{
+            // 전원이 공급되고 있지 않다면
+            Log.d("kkang", "not charge")
+        }
+
+        // 배터리 충전량을 퍼센트로 출력
+        val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+        val batteryPct = level / scale.toDouble() * 100
+        Log.d("kkang","batteryPct : $batteryPct")
     }
 }
