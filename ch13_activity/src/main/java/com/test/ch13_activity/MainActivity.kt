@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -36,6 +38,12 @@ class MainActivity : AppCompatActivity() {
             requestLauncher.launch(intent)
         }
 
+        datas = savedInstanceState?.let {
+            it.getStringArrayList("datas")?.toMutableList()
+        } ?: let {
+            mutableListOf<String>()
+        }
+
         val layoutManager = LinearLayoutManager(this)
         binding.mainRecyclerView.layoutManager = layoutManager
         adapter = MyAdapter(datas)
@@ -43,5 +51,11 @@ class MainActivity : AppCompatActivity() {
         binding.mainRecyclerView.addItemDecoration(
             DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         )
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putStringArrayList("datas", ArrayList(datas))
+        Log.d("aaa", "onSaveInstanceState")
     }
 }
